@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace WalletKata.Users
+﻿namespace WalletKata.Users
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class User
     {
         private List<User> friends = new List<User>();

@@ -1,8 +1,8 @@
-using WalletKata.Exceptions;
-
 namespace WalletKata.Users
 {
-    public class UserSession
+    using WalletKata.Exceptions;
+
+    public class UserSession : IUserSession
     {
         private static readonly UserSession userSession = new UserSession();
 
