@@ -1,59 +1,36 @@
 namespace WalletKata.Wallets
 {
     using System.Collections.Generic;
-    using WalletKata.Users;
+    using System.Linq;
     using WalletKata.Exceptions;
+    using WalletKata.Users;
 
     public class WalletService
     {
         private IUserSession _userSession;
         private IWalletDAO _walletDao;
 
-        public IUserSession userSession
-        {
-            get
-            {
-                return _userSession != null ? _userSession : UserSession.GetInstance();
-            }
-            set
-            {
-                _userSession = value;
-            }
-        }
-
-        public WalletService(IWalletDAO walletDao)
+        public WalletService(IWalletDAO walletDao, IUserSession userSession)
         {
             _walletDao = walletDao;
+            _userSession = userSession;
         }
 
         public List<Wallet> GetWalletsByUser(User user)
         {
-            List<Wallet> walletList = new List<Wallet>();
-            User loggedUser = userSession.GetLoggedUser();
-            bool isFriend = false;
-
-            if (loggedUser != null)
-            {
-                foreach (User friend in user.GetFriends())
-                {
-                    if (friend.Equals(loggedUser))
-                    {
-                        isFriend = true;
-                        break;
-                    }
-                }
-
-                if (isFriend)
-                {
-                    walletList = _walletDao.FindWalletsByUser(user);
-                }
-
-                return walletList;
-            }
-            else
+            User loggedUser = _userSession.GetLoggedUser();
+            if (loggedUser == null)
             {
                 throw new UserNotLoggedInException();
             }
+
+            User friend = user.GetFriends().SingleOrDefault(p => p.Equals(loggedUser));
+            if (friend != null)
+            {
+                return _walletDao.FindWalletsByUser(user);
+            }
+
+            return new List<Wallet>();
         }
     }
 }

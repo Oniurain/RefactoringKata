@@ -1,13 +1,12 @@
 ﻿namespace WalletKata.Users
 {
-    using System.Collections;
     using System.Collections.Generic;
 
     public class User
     {
         private List<User> friends = new List<User>();
 
-        public IEnumerable GetFriends()
+        public IEnumerable<User> GetFriends()
         {
             return friends;
         }

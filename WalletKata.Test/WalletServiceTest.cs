@@ -18,8 +18,7 @@
         {
             _mockUserSession = new Mock<IUserSession>();
             _walletDao = new Mock<IWalletDAO>();
-            testedService = new WalletService(_walletDao.Object);
-            testedService.userSession = _mockUserSession.Object;
+            testedService = new WalletService(_walletDao.Object, _mockUserSession.Object);
         }
 
         [Test]
