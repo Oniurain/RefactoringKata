@@ -10,7 +10,7 @@ namespace WalletKata.Wallets
         private IUserSession _userSession;
         private IWalletDAO _walletDao;
 
-        public WalletService(IWalletDAO walletDao, IUserSession userSession)
+        public WalletService(IUserSession userSession, IWalletDAO walletDao)
         {
             _walletDao = walletDao;
             _userSession = userSession;
@@ -24,7 +24,7 @@ namespace WalletKata.Wallets
                 throw new UserNotLoggedInException();
             }
 
-            User friend = user.GetFriends().SingleOrDefault(p => p.Equals(loggedUser));
+            User friend = user.GetFriends().FirstOrDefault(p => p.Equals(loggedUser));
             if (friend != null)
             {
                 return _walletDao.FindWalletsByUser(user);

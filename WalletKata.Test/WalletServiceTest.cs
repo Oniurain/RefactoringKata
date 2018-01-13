@@ -18,11 +18,11 @@
         {
             _mockUserSession = new Mock<IUserSession>();
             _walletDao = new Mock<IWalletDAO>();
-            testedService = new WalletService(_walletDao.Object, _mockUserSession.Object);
+            testedService = new WalletService(_mockUserSession.Object, _walletDao.Object);
         }
 
         [Test]
-        public void TestWalletService_GetWalletsByUser_NoLoggedUser_ThrowsNotLoggedException()
+        public void TestWalletService_GetWalletsByUser_NotLoggedUser_ThrowsNotLoggedException()
         {
             User paramUser = new User();
             _mockUserSession.Setup(p => p.GetLoggedUser()).Returns<User>(null);
@@ -31,7 +31,7 @@
         }
 
         [Test]
-        public void TestWalletService_GetWalletsByUser_LoggedUserWithoutFriend_EmptyList()
+        public void TestWalletService_GetWalletsByUser_UserWithoutFriend_EmptyList()
         {
             User paramUser = new User();
             User loggedUser = new User();
